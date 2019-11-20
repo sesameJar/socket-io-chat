@@ -17,5 +17,17 @@ app.use(express.static("public"))
 let io = socket(server)
 
 io.on("connection", socket => {
-    console.log("MADE SOCKET CONNECTION")
+    console.log("MADE SOCKET CONNECTION", socket.id)
+
+    //Handle Chat event
+    socket.on('chat', data => {
+        io.sockets.emit('chat', data)
+    })
+
+    // Typing Event
+    socket.on('typing',data => {
+        socket.broadcast.emit('typing', data)
+    })
 })
+
+
